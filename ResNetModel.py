@@ -27,6 +27,12 @@ def ResNet(img_rows, img_cols, img_channels, x_train):
 	x=Conv2D(32,(7,7), padding="same", input_shape=x_train.shape[1:],activation="relu")(input)
 	x=MaxPooling2D(pool_size=(2,2))(x)
 
+	x=rescell(x,32,(3,3))
+	x=rescell(x,32,(3,3))
+	x=rescell(x,32,(3,3))
+
+	x=rescell(x,64,(3,3),True)
+
 	x=rescell(x,64,(3,3))
 	x=rescell(x,64,(3,3))
 	x=rescell(x,64,(3,3))
@@ -36,23 +42,17 @@ def ResNet(img_rows, img_cols, img_channels, x_train):
 	x=rescell(x,128,(3,3))
 	x=rescell(x,128,(3,3))
 	x=rescell(x,128,(3,3))
+	x=rescell(x,128,(3,3))
+	x=rescell(x,128,(3,3))
 
 	x=rescell(x,256,(3,3),True)
 
 	x=rescell(x,256,(3,3))
 	x=rescell(x,256,(3,3))
-	x=rescell(x,256,(3,3))
-	x=rescell(x,256,(3,3))
-	x=rescell(x,256,(3,3))
-
-	x=rescell(x,512,(3,3),True)
-
-	x=rescell(x,512,(3,3))
-	x=rescell(x,512,(3,3))
 
 	x=AveragePooling2D(pool_size=(int(x.shape[1]),int(x.shape[2])),strides=(2,2))(x)
 
 	x=Flatten()(x)
-	x=Dense(units=10,kernel_initializer="he_normal",activation="softmax")(x)
+	x=Dense(units=100,kernel_initializer="he_normal",activation="softmax")(x)
 	model=Model(inputs=input,outputs=[x])
 	return model
